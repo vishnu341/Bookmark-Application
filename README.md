@@ -1,3 +1,5 @@
+                                                      🔖 Bookmark Manager App
+
 A secure, full-stack Bookmark Manager Web Application built with Next.js, Supabase, and Google OAuth Authentication.
 
 Users can sign in with Google, manage their personal bookmarks, and securely store data with Row Level Security (RLS).
