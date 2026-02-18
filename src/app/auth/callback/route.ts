@@ -1,4 +1,4 @@
-'use client'
+
 
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
@@ -16,4 +16,5 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.redirect(new URL('/dashboard', requestUrl.origin))
 }
+
 
