@@ -10,7 +10,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'http://localhost:3000/dashboard',
+        redirectTo: 'https://bookmark-app-coral-six.vercel.app/dashboard',
       },
     })
     if (error) console.error('OAuth error:', error.message)
@@ -313,4 +313,5 @@ export default function LoginPage() {
       </div>
     </>
   )
+
 }
