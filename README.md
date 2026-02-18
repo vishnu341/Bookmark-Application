@@ -1,4 +1,4 @@
-                                                      🔖 Bookmark Manager App
+                                              🔖 Bookmark Manager App
 
 A secure, full-stack Bookmark Manager Web Application built with Next.js, Supabase, and Google OAuth Authentication.
 
