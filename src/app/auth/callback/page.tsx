@@ -1,28 +1,19 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabaseClient'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export default function AuthCallbackPage() {
-  const router = useRouter()
+export async function GET(request: NextRequest) {
+  const requestUrl = new URL(request.url)
+  const code = requestUrl.searchParams.get('code')
 
-  useEffect(() => {
-    const handleAuth = async () => {
-      const { data, error } = await supabase.auth.getSession()
+  if (code) {
+    const supabase = createRouteHandlerClient({ cookies })
+    await supabase.auth.exchangeCodeForSession(code)
+  }
 
-      if (error || !data.session) {
-        console.error('Auth error:', error)
-        router.replace('/login')
-        return
-      }
-
-      // ✅ Logged in successfully
-      router.replace('/dashboard')
-    }
-
-    handleAuth()
-  }, [router])
-
-  return <p>Signing you in...</p>
+  return NextResponse.redirect(new URL('/dashboard', requestUrl.origin))
 }
+
