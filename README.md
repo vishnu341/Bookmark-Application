@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A secure, full-stack Bookmark Manager Web Application built with Next.js, Supabase, and Google OAuth Authentication.
 
-## Getting Started
+Users can sign in with Google, manage their personal bookmarks, and securely store data with Row Level Security (RLS).
 
-First, run the development server:
+Challenges & Solutions
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-Next.js Routing Issues:
+  The app initially showed only the default Next.js welcome page because required App Router files (layout.tsx, page.tsx) were missing. This was fixed by rebuilding the project using the correct src/app structure   with proper routing files.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-Hydration & SSR Errors:
+  React hydration errors occurred due to client-only logic running during server-side rendering. This was solved by correctly using "use client" directives and separating client and server logic.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-Supabase Import & Path Errors:
+  Errors like Cannot find module '@/lib/supabaseClient' were caused by missing tsconfig.json and incorrect path aliases. This was resolved by adding tsconfig.json and configuring proper @/* path mapping.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-TypeScript never Insert Errors:
+  Supabase insert() operations failed with never type errors because no database types were defined. Creating a types.ts file and connecting the Supabase client with proper database typings fixed this completely.
 
-## Learn More
+-Authentication Loop Issue:
+  After magic link login, users were redirected back to login repeatedly due to missing session handling. This was solved by implementing session checks using supabase.auth.getSession() and protected route logic.
 
-To learn more about Next.js, take a look at the following resources:
+-Google OAuth Redirect Errors:
+  Google OAuth failed with redirect_uri_mismatch because the Supabase callback URL was not registered in Google Cloud Console. Adding the Supabase callback URL fixed the issue.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-OAuth Client Deletion Error:
+  Login failed with deleted_client due to removed OAuth credentials. This was fixed by recreating the OAuth client and reconnecting Google Auth in Supabase.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-Supabase Server Client Cookie Errors:
+  Server-side authentication failed due to incorrect cookie handling. This was resolved by correctly using Next.js App Router cookie methods with createServerClient.
 
-## Deploy on Vercel
+-Row Level Security (RLS) Blocking Data:
+  Bookmarks could not be added because RLS policies were missing. Proper RLS policies were created for select, insert, and delete.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-UI State & Auth Sync Issues:
+  Buttons like logout and add-bookmark disappeared due to broken session state rendering. This was solved using session-based conditional rendering and proper client-side auth state syncing.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
